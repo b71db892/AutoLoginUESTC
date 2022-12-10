@@ -1,0 +1,23 @@
+version: '3.4'
+services:
+  stash:
+    image: alexandersande/network-login:latest
+    container_name: nwlogin
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "10"
+        max-size: "2m"
+    environment:
+      # 你的学号
+      - LOGIN_ID=11111111111111
+      # 信息门户密码
+      - LOGIN_PASSWORD=114514
+      # 寝室公寓=3 主楼有线校园网=1
+      - LOCATION=3
+      # 电信:"dx", 移动:"cmcc", 校园网:"dx-uestc"
+      - SERVICE_PROVIDER=cmcc
+      # Ping的IP地址
+      - PINGIP=114.114.114.114
+      
