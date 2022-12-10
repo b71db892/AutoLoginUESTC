@@ -18,6 +18,33 @@ python login_once.py
 ```angular2html
 python always_online.py
 ```
+- docker-compose部署方法：
+```bash
+echo "version: '3.4'
+services:
+  stash:
+    image: alexandersande/network-login:latest
+    container_name: nwlogin
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "10"
+        max-size: "2m"
+    environment:
+      # 你的学号
+      - LOGIN_ID=11111111111111
+      # 信息门户密码
+      - LOGIN_PASSWORD=114514
+      # 寝室公寓=3 主楼有线校园网=1
+      - LOCATION=3
+      # 电信:"dx", 移动:"cmcc", 校园网:"dx-uestc"
+      - SERVICE_PROVIDER=cmcc
+      # Ping的IP地址
+      - PINGIP=114.114.114.114" > docker-compose.yaml
+docker-compose up -d
+```
+
 ### 抄的！抄的！抄的！
 - 楼主入学的时候深澜软件的网络认证页面已经经过混淆了，还好GitHub有大佬之前写好的登录流程相关代码。
 所以就完全照着抄了这个https://github.com/coffeehat/BIT-srun-login-script
