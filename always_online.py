@@ -18,13 +18,29 @@ try:
 except:
     pass
 
-def is_connect_internet(test_ip):
-    if platform.system().lower().startswith('windows'):
-        cmd = u"ping {} -n 1".format(test_ip)
+
+def is_connect_internet(test_ip, tun_mode=True):
+    # clash的TUN模式下，ping会被劫持，所以无法判断是否联网
+    # 因此推荐使用下面的检测联网方式
+    if not tun_mode:
+        if platform.system().lower().startswith('windows'):
+            cmd = u"ping {} -n 1".format(test_ip)
+        else:
+            cmd = u"ping {} -c 1".format(test_ip)
+        status = os.system(cmd)
+        return status == 0
     else:
-        cmd = u"ping {} -c 1".format(test_ip)
-    status = os.system(cmd)
-    return status == 0
+        import re
+        myre = re.compile(
+            '^(1\d{2}|2[0-4]\d|25[0-5]|[1-9]\d|[1-9])\.(1\d{2}|2[0-4]\d|25[0-5]|[1-9]\d|\d)\.(1\d{2}|2[0-4]\d|25[0-5]|[1-9]\d|\d)\.(1\d{2}|2[0-4]\d|25[0-5]|[1-9]\d|\d)$')
+        try:
+            _ip = os.popen("curl 4.ipw.cn").readline().strip()
+            print(_ip)
+            # print(myre.match(_ip).group())
+            # print(myre.match(_ip).group() == _ip)
+            return myre.match(_ip).group() == _ip
+        except Exception:
+            return False
 
 def always_login(user=None, test_ip=None, delay=2, max_failed=3, **kwargs):
     time_now = lambda: time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())

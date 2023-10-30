@@ -18,6 +18,13 @@ python login_once.py
 ```angular2html
 python always_online.py
 ```
+
+或者使用Windows 自带的计划任务计划程序 跑`python login_once.py` 防止后台被杀
+
+![Alt text](win.png)
+
+Linux系可以使用`crontab`
+
 ### 抄的！抄的！抄的！
 - 楼主入学的时候深澜软件的网络认证页面已经经过混淆了，还好GitHub有大佬之前写好的登录流程相关代码。
 所以就完全照着抄了这个https://github.com/coffeehat/BIT-srun-login-script
